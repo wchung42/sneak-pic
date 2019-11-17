@@ -2,7 +2,7 @@
 Senior Design Project
 
 Group Members:
-1. Anthony Bravo 
+1. William Chung
 2. Nahmida Talukder
 3. Michele Ruocco
-4. Nahmida Talukder
+4. Zannatul Adnin
