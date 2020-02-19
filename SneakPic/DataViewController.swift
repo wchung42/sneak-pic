@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import AVFoundation
 
 class DataViewController: UIViewController {
 
+    @IBOutlet weak var cameraView: UIView!
+    
     @IBOutlet weak var dataLabel: UILabel!
     var dataObject: String = ""
 
@@ -25,5 +28,10 @@ class DataViewController: UIViewController {
     }
 
 
+    @IBAction func imageCapture(_ sender: Any) {
+    }
+    
+    @IBAction func rotateCamera(_ sender: Any) {
+    }
 }
 

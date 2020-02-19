@@ -16,6 +16,8 @@
 		3D58E63423FCE95800E23401 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E63223FCE95800E23401 /* LaunchScreen.storyboard */; };
 		3D58E63F23FCE95800E23401 /* SneakPicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D58E63E23FCE95800E23401 /* SneakPicTests.swift */; };
 		3D58E64A23FCE95800E23401 /* SneakPicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D58E64923FCE95800E23401 /* SneakPicUITests.swift */; };
+		3D58E65823FCF88B00E23401 /* icons8-rotate-camera-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E65723FCF88B00E23401 /* icons8-rotate-camera-50.png */; };
+		3D58E65A23FCF89200E23401 /* 1200px-Circle_-_black_simple.svg.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E65923FCF89200E23401 /* 1200px-Circle_-_black_simple.svg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		3D58E64523FCE95800E23401 /* SneakPicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SneakPicUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D58E64923FCE95800E23401 /* SneakPicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SneakPicUITests.swift; sourceTree = "<group>"; };
 		3D58E64B23FCE95800E23401 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3D58E65723FCF88B00E23401 /* icons8-rotate-camera-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icons8-rotate-camera-50.png"; path = "../../Downloads/icons8-rotate-camera-50.png"; sourceTree = "<group>"; };
+		3D58E65923FCF89200E23401 /* 1200px-Circle_-_black_simple.svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "1200px-Circle_-_black_simple.svg.png"; path = "../../Downloads/1200px-Circle_-_black_simple.svg.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 				3D58E63D23FCE95800E23401 /* SneakPicTests */,
 				3D58E64823FCE95800E23401 /* SneakPicUITests */,
 				3D58E62323FCE95500E23401 /* Products */,
+				3D58E65723FCF88B00E23401 /* icons8-rotate-camera-50.png */,
+				3D58E65923FCF89200E23401 /* 1200px-Circle_-_black_simple.svg.png */,
 			);
 			sourceTree = "<group>";
 		};
@@ -237,7 +243,9 @@
 			files = (
 				3D58E63423FCE95800E23401 /* LaunchScreen.storyboard in Resources */,
 				3D58E63123FCE95800E23401 /* Assets.xcassets in Resources */,
+				3D58E65823FCF88B00E23401 /* icons8-rotate-camera-50.png in Resources */,
 				3D58E62F23FCE95500E23401 /* Main.storyboard in Resources */,
+				3D58E65A23FCF89200E23401 /* 1200px-Circle_-_black_simple.svg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
