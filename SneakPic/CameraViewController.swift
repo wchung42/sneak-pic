@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-class ViewController: UIViewController {
+class CameraViewController: UIViewController {
 
     
     var captureSession = AVCaptureSession()
@@ -18,6 +18,8 @@ class ViewController: UIViewController {
 
     
     @IBOutlet weak var previewView: PreviewView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAuthorizationCamera()
@@ -72,7 +74,7 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: AVCapturePhotoCaptureDelegate {
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard error == nil else { print("Error capturing photo: \(error!)"); return }
         

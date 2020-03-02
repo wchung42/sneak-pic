@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		06357B3D2400983B00691884 /* icons8-rotate-camera-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 06357B3C2400983B00691884 /* icons8-rotate-camera-50.png */; };
-		06357B3F240098CD00691884 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06357B3E240098CD00691884 /* ViewController.swift */; };
+		06357B3F240098CD00691884 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06357B3E240098CD00691884 /* CameraViewController.swift */; };
 		06357B41240098E900691884 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06357B40240098E900691884 /* PreviewView.swift */; };
+		06F5DFBE240CBEF3006BD016 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F5DFBD240CBEF3006BD016 /* MapViewController.swift */; };
 		3D58E62623FCE95500E23401 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D58E62523FCE95500E23401 /* AppDelegate.swift */; };
 		3D58E62F23FCE95500E23401 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E62D23FCE95500E23401 /* Main.storyboard */; };
 		3D58E63123FCE95800E23401 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E63023FCE95800E23401 /* Assets.xcassets */; };
@@ -37,8 +38,9 @@
 
 /* Begin PBXFileReference section */
 		06357B3C2400983B00691884 /* icons8-rotate-camera-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icons8-rotate-camera-50.png"; sourceTree = "<group>"; };
-		06357B3E240098CD00691884 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		06357B3E240098CD00691884 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		06357B40240098E900691884 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		06F5DFBD240CBEF3006BD016 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		3D58E62223FCE95500E23401 /* SneakPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SneakPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D58E62523FCE95500E23401 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D58E62E23FCE95500E23401 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -103,8 +105,9 @@
 			isa = PBXGroup;
 			children = (
 				3D58E62523FCE95500E23401 /* AppDelegate.swift */,
-				06357B3E240098CD00691884 /* ViewController.swift */,
+				06357B3E240098CD00691884 /* CameraViewController.swift */,
 				06357B40240098E900691884 /* PreviewView.swift */,
+				06F5DFBD240CBEF3006BD016 /* MapViewController.swift */,
 				3D58E62D23FCE95500E23401 /* Main.storyboard */,
 				3D58E63023FCE95800E23401 /* Assets.xcassets */,
 				3D58E63223FCE95800E23401 /* LaunchScreen.storyboard */,
@@ -263,9 +266,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06357B3F240098CD00691884 /* ViewController.swift in Sources */,
+				06357B3F240098CD00691884 /* CameraViewController.swift in Sources */,
 				3D58E62623FCE95500E23401 /* AppDelegate.swift in Sources */,
 				06357B41240098E900691884 /* PreviewView.swift in Sources */,
+				06F5DFBE240CBEF3006BD016 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
