@@ -78,6 +78,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard error == nil else { print("Error capturing photo: \(error!)"); return }
         
+        //saving photo to library
         PHPhotoLibrary.requestAuthorization { status in
             guard status == .authorized else { return }
             

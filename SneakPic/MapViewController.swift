@@ -9,16 +9,34 @@
 import UIKit
 import MapKit
 import CoreLocation
+import FirebaseDatabase
+
 class MapViewController: UIViewController {
 
     @IBOutlet var mapView: MKMapView!
     
+    let location: NSDictionary = [
+        "lat" : 40.768127,
+        "long" : -73.981462
+    ]
     var locationManager: CLLocationManager!
     
+    var ref: DatabaseReference!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupLocationServices()
+        
+        ref = Database.database().reference()
+        getPinData()
+    }
+    
+    
+    func createLocations() {
+        ref.child("Locations").childByAutoId().setValue(location)
+    }
+    func setupLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager = CLLocationManager()
             locationManager.delegate = self
@@ -29,32 +47,36 @@ class MapViewController: UIViewController {
             mapView.showsUserLocation = true
             mapView.delegate = self
         }
+    }
         
-//        makeRoute()
+    
+    func getPinData() {
+        ref.child("Locations").observeSingleEvent(of: .value, with: { snapshot in
+            if snapshot.exists() {
+                for item in snapshot.children {
+                    let childSnap = item as! DataSnapshot
+                    print(childSnap.value)
+                    
+                    let latitude = childSnap.childSnapshot(forPath: "lat").value as! CLLocationDegrees
+                    let longitude = childSnap.childSnapshot(forPath: "long").value as! CLLocationDegrees
+                    let loc = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    self.addPin(location: loc)
+                }
+            }
+        })
     }
     
-    func makeRoute() {
-        let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 40.7127, longitude: -74.0059)))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: 37.783333, longitude: -122.416667)))
-        request.requestsAlternateRoutes = true
-        request.transportType = .automobile
-        
-        let directions = MKDirections(request: request)
-        
-        directions.calculate { [unowned self] response, Error in
-            guard let unwrappedResponse = response else { return }
-            
-            for route in unwrappedResponse.routes {
-                self.mapView.addOverlay(route.polyline)
-                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
-            }
-        }
+    func addPin(location: CLLocationCoordinate2D) {
+        let pin = MKPointAnnotation()
+        pin.coordinate = location
+        mapView.addAnnotation(pin)
     }
+    
     
     
     @IBAction func routePressed(_ sender: Any) {
-        makeRoute()
+//        makeRoute()
+        
     }
     
     
@@ -73,6 +95,8 @@ class MapViewController: UIViewController {
 
 
 extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
+    
+//MARK: - MapView Delegates
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
         renderer.strokeColor = UIColor.blue
@@ -80,6 +104,26 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
         return renderer
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { return nil }
+        
+        let identifier = "Annotation"
+        var annotaionView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotaionView == nil {
+            annotaionView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotaionView!.canShowCallout = true
+        } else {
+            annotaionView!.annotation = annotation
+            annotaionView!.canShowCallout = true
+
+        }
+        return annotaionView
+    }
+    
+    
+    
+//MARK: - Location Manager Delegates
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error.localizedDescription)
     }
@@ -88,3 +132,10 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
         
     }
 }
+
+
+
+//MARK: - address to coordinates
+//https://stackoverflow.com/questions/42279252/convert-address-to-coordinates-swift
+
+

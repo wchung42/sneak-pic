@@ -1,0 +1,6 @@
+framework module Pods_SneakPic_SneakPicUITests {
+  umbrella header "Pods-SneakPic-SneakPicUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
