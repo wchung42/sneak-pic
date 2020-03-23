@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import Photos
+import FirebaseStorage
 
 class CameraViewController: UIViewController {
 
@@ -16,14 +17,15 @@ class CameraViewController: UIViewController {
     var captureSession = AVCaptureSession()
     var photoOutput = AVCapturePhotoOutput()
 
-    
+//    var storage = Storage.storage()
     @IBOutlet weak var previewView: PreviewView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAuthorizationCamera()
-
+//        storage = Storage.storage()
+//        let storageRef = storage.reference()
     }
     
     func checkAuthorizationCamera() {
@@ -62,8 +64,8 @@ class CameraViewController: UIViewController {
 
     @IBAction func didTapCaptureButton(_ sender: Any) {
         let photoSettings: AVCapturePhotoSettings
-        if self.photoOutput.availablePhotoCodecTypes.contains(.hevc) {
-            photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.hevc])
+        if self.photoOutput.availablePhotoCodecTypes.contains(.jpeg) {
+            photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         } else {
             photoSettings = AVCapturePhotoSettings()
         }
@@ -78,15 +80,22 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard error == nil else { print("Error capturing photo: \(error!)"); return }
         
-        //saving photo to library
-        PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else { return }
-            
-            PHPhotoLibrary.shared().performChanges({
-                // add the captured photo file data as the main resource for the photos asset
-                let creationRequest = PHAssetCreationRequest.forAsset()
-                creationRequest.addResource(with: .photo, data: photo.fileDataRepresentation()!, options: nil)
-            }, completionHandler: nil)
-        }
+        
+        PostService.create(for: photo)
+        
+        
+//        //saving photo to library
+//        PHPhotoLibrary.requestAuthorization { status in
+//            guard status == .authorized else { return }
+//
+//            PHPhotoLibrary.shared().performChanges({
+//                // add the captured photo file data as the main resource for the photos asset
+//                let creationRequest = PHAssetCreationRequest.forAsset()
+//                creationRequest.addResource(with: .photo, data: photo.fileDataRepresentation()!, options: nil)
+//            }, completionHandler: nil)
+//        }
+        
+//        print(photo)
+        
     }
 }

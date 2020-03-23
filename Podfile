@@ -8,6 +8,9 @@ target 'SneakPic' do
   # Pods for SneakPic
 pod 'Firebase/Auth'
 pod 'Firebase/Database'
+pod 'Firebase/Storage'
+
+pod 'Kingfisher'
 
   target 'SneakPicTests' do
     inherit! :search_paths
