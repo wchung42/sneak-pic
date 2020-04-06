@@ -9,29 +9,65 @@
 import UIKit
 import Firebase
 import Kingfisher
+import MapKit
 
 class FeedViewController: UIViewController {
 
     @IBOutlet weak var feedTableView: UITableView!
     
+    @IBOutlet weak var mapView: MKMapView!
     
     var posts = [Post]()
+    var visiblePosts: [Post] = []
+    
+    let nyc = CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060)
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setMapInitCoordinates()
         configureTableView()
         
         UserService.posts(for: Auth.auth().currentUser!) { (posts) in
             self.posts = posts
             self.feedTableView.reloadData()
+            self.showPointsOnMap()
         }
+        
+        
     }
     
     func configureTableView() {
         feedTableView.tableFooterView = UIView()
-        feedTableView.separatorStyle = .none
+        feedTableView.separatorStyle = .singleLine
+    }
+    
+    func showPointsOnMap() {
+        mapView.removeAnnotations(mapView.annotations)
+        
+        for post in posts {
+            let pin = MapPin(point: post)
+            mapView.addAnnotation(pin)
+        }
+    }
+    
+    func setMapInitCoordinates() {
+        mapView.setCenter(nyc, animated: true)
+        let visibleRegion = MKCoordinateRegion(center: nyc, latitudinalMeters: 100000, longitudinalMeters: 100000)
+        self.mapView.setRegion(self.mapView.regionThatFits(visibleRegion), animated: true)
+    }
+    
+    func filterVisiblePost() {
+        let visibleAnnotations = self.mapView.annotations(in: self.mapView.visibleMapRect)
+        var annotations = [MapPin]()
+        for visibleAnnotation in visibleAnnotations {
+            if let annotation = visibleAnnotation as? MapPin {
+                annotations.append(annotation)
+            }
+        }
+        self.visiblePosts = annotations.map({$0.post})
+        self.feedTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
 
@@ -66,12 +102,53 @@ extension FeedViewController: UITableViewDataSource {
     }
 }
 
-// MARK: -UITableViewDelegate
+// MARK: - UITableViewDelegate
 
 extension FeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let post = posts[indexPath.row]
         
         return post.imageHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let point = posts[indexPath.row]
+        if let annotation = (mapView.annotations as? [MapPin])?.filter({ $0.post == point}).first {
+            selectPinPointOnMap(annotation: annotation)
+        }
+    }
+    
+    
+    
+    func selectPinPointOnMap(annotation: MapPin) {
+        mapView.selectAnnotation(annotation, animated: true)
+        if CLLocationCoordinate2DIsValid(annotation.coordinate) {
+            self.mapView.setCenter(annotation.coordinate, animated: true)
+        }
+    }
+    
+}
+
+// MARK: - MapView Delegates
+extension FeedViewController: MKMapViewDelegate {
+
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { return nil }
+        
+        let identifier = "Annotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+            annotationView!.canShowCallout = true
+        }
+        return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        filterVisiblePost()
     }
 }

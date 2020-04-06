@@ -22,6 +22,7 @@
 		065551F42424158C00BC62B6 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 065551F32424158C00BC62B6 /* Login.storyboard */; };
 		065551F92424166300BC62B6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065551F82424166300BC62B6 /* LoginViewController.swift */; };
 		067BC4F5241ECBA100F510C2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 067BC4F4241ECBA100F510C2 /* GoogleService-Info.plist */; };
+		068EC0AD24390746007695DC /* MapPins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068EC0AC24390746007695DC /* MapPins.swift */; };
 		06F5DFBE240CBEF3006BD016 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F5DFBD240CBEF3006BD016 /* MapViewController.swift */; };
 		3D58E62623FCE95500E23401 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D58E62523FCE95500E23401 /* AppDelegate.swift */; };
 		3D58E62F23FCE95500E23401 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E62D23FCE95500E23401 /* Main.storyboard */; };
@@ -67,6 +68,7 @@
 		065551F32424158C00BC62B6 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		065551F82424166300BC62B6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		067BC4F4241ECBA100F510C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		068EC0AC24390746007695DC /* MapPins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPins.swift; sourceTree = "<group>"; };
 		06F5DFBD240CBEF3006BD016 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		29D35B8D5DAC3B743D76F553 /* Pods_SneakPic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SneakPic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D58E62223FCE95500E23401 /* SneakPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SneakPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +177,7 @@
 				063187A72427B78E0007940F /* PostImageCell.swift */,
 				065551F12423E3D200BC62B6 /* StorageReference+Post.swift */,
 				06357B40240098E900691884 /* PreviewView.swift */,
+				068EC0AC24390746007695DC /* MapPins.swift */,
 				063187A52427B37F0007940F /* UserService.swift */,
 				3D58E63023FCE95800E23401 /* Assets.xcassets */,
 				3D58E63523FCE95800E23401 /* Info.plist */,
@@ -474,6 +477,7 @@
 				06318798242556620007940F /* CreateAccountViewController.swift in Sources */,
 				065551F92424166300BC62B6 /* LoginViewController.swift in Sources */,
 				0631879E24266BF90007940F /* SettingsViewController.swift in Sources */,
+				068EC0AD24390746007695DC /* MapPins.swift in Sources */,
 				065551EC2422EAA200BC62B6 /* StorageService.swift in Sources */,
 				065551EE2422EDFA00BC62B6 /* PostService.swift in Sources */,
 				06357B3F240098CD00691884 /* CameraViewController.swift in Sources */,
@@ -663,6 +667,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G3ASW8VXQN;
 				INFOPLIST_FILE = SneakPic/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -682,6 +687,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G3ASW8VXQN;
 				INFOPLIST_FILE = SneakPic/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

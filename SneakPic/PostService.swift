@@ -10,26 +10,28 @@ import UIKit
 import Firebase
 
 import AVFoundation
+import CoreLocation
 
 struct PostService {
-    static func create(for image: AVCapturePhoto) {
+    static func create(for image: AVCapturePhoto, location: CLLocation) {
         let imageRef = StorageReference.newPostImageReference()
         StorageService.uploadImage(image, at: imageRef) { (downloadURL) in
             guard let downloadURL = downloadURL else {
                 return
             }
             let urlString = downloadURL.absoluteString
-            create(forURLString: urlString, aspectHeight: 600)
-            
+            create(forURLString: urlString, aspectHeight: 600, location: location)
+
             
         }
     }
     
-    private static func create(forURLString urlString: String, aspectHeight: CGFloat) {
+    private static func create(forURLString urlString: String, aspectHeight: CGFloat, location: CLLocation) {
         
         let currentUser = Auth.auth().currentUser
         
-        let post = Post(imageURL: urlString, imageHeight: aspectHeight)
+        let post = Post(imageURL: urlString, imageHeight: aspectHeight, location: location)
+        
         
         let dict = post.dictValue
         

@@ -10,13 +10,16 @@ import UIKit
 import AVFoundation
 import Photos
 import FirebaseStorage
+import CoreLocation
 
 class CameraViewController: UIViewController {
 
     
     var captureSession = AVCaptureSession()
     var photoOutput = AVCapturePhotoOutput()
-
+    
+    var locationManager: CLLocationManager!
+    
 //    var storage = Storage.storage()
     @IBOutlet weak var previewView: PreviewView!
     
@@ -24,8 +27,20 @@ class CameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAuthorizationCamera()
+        setupLocationServices()
 //        storage = Storage.storage()
 //        let storageRef = storage.reference()
+    }
+    
+    func setupLocationServices() {
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+            locationManager.requestLocation()
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
     }
     
     func checkAuthorizationCamera() {
@@ -76,12 +91,21 @@ class CameraViewController: UIViewController {
     
 }
 
+extension CameraViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    }
+}
+
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard error == nil else { print("Error capturing photo: \(error!)"); return }
         
         
-        PostService.create(for: photo)
+        PostService.create(for: photo, location: (locationManager?.location)!)
         
         
 //        //saving photo to library
