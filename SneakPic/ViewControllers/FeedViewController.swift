@@ -17,6 +17,7 @@ class FeedViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    var refreshController: UIRefreshControl!
     var posts = [Post]()
     var visiblePosts: [Post] = []
     
@@ -24,18 +25,30 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        refreshController = UIRefreshControl()
+        feedTableView.addSubview(refreshController)
+        refreshController.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshController.addTarget(self, action: #selector(getPosts), for: .valueChanged)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         setMapInitCoordinates()
         configureTableView()
         
+        getPosts()
+    }
+    
+    @objc func getPosts() {
         UserService.posts(for: Auth.auth().currentUser!) { (posts) in
             self.posts = posts
             self.feedTableView.reloadData()
             self.showPointsOnMap()
         }
-        
-        
+        refreshController.endRefreshing()
+
     }
     
     func configureTableView() {
