@@ -11,10 +11,13 @@ import AVFoundation
 import Photos
 import FirebaseStorage
 import CoreLocation
+import CoreMotion
 
 class CameraViewController: UIViewController {
 
-    
+    let motionManager = CMMotionManager()
+    var timer: Timer!
+    // camera is a 4:3 aspect ratio
     var captureSession = AVCaptureSession()
     var photoOutput = AVCapturePhotoOutput()
     
@@ -23,13 +26,30 @@ class CameraViewController: UIViewController {
 //    var storage = Storage.storage()
     @IBOutlet weak var previewView: PreviewView!
     
+    @IBOutlet weak var currentX: UILabel!
+    @IBOutlet weak var currentY: UILabel!
+    @IBOutlet weak var currentZ: UILabel!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAuthorizationCamera()
         setupLocationServices()
+        motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
+        
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(gyroUpdate), userInfo: nil, repeats: true)
 //        storage = Storage.storage()
 //        let storageRef = storage.reference()
+    }
+    
+    @objc func gyroUpdate() {
+        if let deviceMotion = motionManager.deviceMotion {
+            print(deviceMotion.attitude.quaternion)
+            self.currentX.text = "X: \(deviceMotion.attitude.pitch)"
+            self.currentY.text = "Y: \(deviceMotion.attitude.roll)"
+            self.currentZ.text = "Z: \(deviceMotion.attitude.yaw)"
+        }
     }
     
     func setupLocationServices() {
@@ -94,6 +114,11 @@ class CameraViewController: UIViewController {
         photoSettings.isAutoStillImageStabilizationEnabled = self.photoOutput.isStillImageStabilizationSupported
         self.photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
+    
+    @IBAction func cancelPressed(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
 }
 
