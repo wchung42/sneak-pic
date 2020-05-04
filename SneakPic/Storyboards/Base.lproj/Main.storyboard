@@ -103,11 +103,74 @@
                         <outlet property="currentY" destination="SgZ-ib-xhM" id="vmg-TH-b07"/>
                         <outlet property="currentZ" destination="Z4P-Ur-oXN" id="OJM-Mu-Q76"/>
                         <outlet property="previewView" destination="LCF-NH-3ZU" id="dEG-hR-liX"/>
+                        <outlet property="targetX" destination="qIk-9e-9qW" id="vlN-mT-ZCQ"/>
+                        <outlet property="targetY" destination="HhG-9X-EDZ" id="S4U-WC-XgD"/>
+                        <outlet property="targetZ" destination="VXZ-6S-5fM" id="3RE-q6-Sfj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FIQ-1L-FYq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2145" y="-33"/>
+            <point key="canvasLocation" x="2993" y="-33"/>
+        </scene>
+        <!--Directions View Controller-->
+        <scene sceneID="yae-Yi-70I">
+            <objects>
+                <viewController id="4h0-jM-GRJ" customClass="DirectionsViewController" customModule="SneakPic" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KZI-LB-cyV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qb3-Y4-qcv">
+                                <rect key="frame" x="0.0" y="82" width="375" height="105"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3MZ-lp-w2E">
+                                        <rect key="frame" x="8" y="0.0" width="359" height="105"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dgO-pi-Oqi">
+                                <rect key="frame" x="15" y="44" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelPressed:" destination="4h0-jM-GRJ" eventType="touchUpInside" id="J4D-Ex-D5f"/>
+                                </connections>
+                            </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" rotateEnabled="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnD-jS-CSR">
+                                <rect key="frame" x="0.0" y="195" width="375" height="617"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5hS-F3-D3k">
+                                <rect key="frame" x="313" y="44" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vAZ-8G-jCF">
+                                <rect key="frame" x="313" y="44" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <segue destination="WFg-UP-YXu" kind="presentation" modalPresentationStyle="fullScreen" id="huI-hG-xav"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="MVQ-dN-fms"/>
+                    </view>
+                    <connections>
+                        <outlet property="directionLabel" destination="3MZ-lp-w2E" id="cct-3y-6c6"/>
+                        <outlet property="mapView" destination="XnD-jS-CSR" id="NyS-W9-Arm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XfK-Ks-eQo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1914" y="709"/>
         </scene>
         <!--Settings-->
         <scene sceneID="xg0-1T-Mbo">
@@ -218,9 +281,23 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="D5u-mo-MVG">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ltX-uj-01Y">
+                                                    <rect key="frame" x="262" y="11" width="98" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="LFu-jk-kG4"/>
+                                                        <constraint firstAttribute="width" constant="98" id="qaz-U0-t4q"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Get Directions"/>
+                                                    <connections>
+                                                        <action selector="getDirections:" destination="apO-lA-YER" eventType="touchUpInside" id="wLP-6D-WPu"/>
+                                                        <segue destination="4h0-jM-GRJ" kind="presentation" modalPresentationStyle="fullScreen" id="uYb-lq-gdZ"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="ltX-uj-01Y" secondAttribute="bottom" constant="2.6699999999999999" id="8co-NZ-4W5"/>
                                                 <constraint firstItem="D5u-mo-MVG" firstAttribute="top" secondItem="8iN-32-kGl" secondAttribute="top" id="FHX-dV-9z8"/>
+                                                <constraint firstAttribute="trailing" secondItem="ltX-uj-01Y" secondAttribute="trailing" constant="15" id="XEA-aw-BXk"/>
                                                 <constraint firstAttribute="bottom" secondItem="D5u-mo-MVG" secondAttribute="bottom" id="aAz-Dz-2Tf"/>
                                                 <constraint firstAttribute="trailing" secondItem="D5u-mo-MVG" secondAttribute="trailing" id="cR6-tZ-rB9"/>
                                                 <constraint firstItem="D5u-mo-MVG" firstAttribute="leading" secondItem="8iN-32-kGl" secondAttribute="leading" id="vA9-0t-Esb"/>
@@ -249,7 +326,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" image="camera" catalog="system" id="Fwc-1x-wGr">
                             <connections>
                                 <action selector="cameraButtonPressed:" destination="JwS-WE-pQO" id="Zdg-VZ-Wwr"/>
-                                <segue destination="WFg-UP-YXu" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="wA4-ov-w0J"/>
+                                <segue destination="WFg-UP-YXu" kind="presentation" modalPresentationStyle="fullScreen" id="wA4-ov-w0J"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -282,6 +359,9 @@
             <point key="canvasLocation" x="137" y="-33"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="huI-hG-xav"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="camera" catalog="system" width="128" height="96"/>
         <image name="camera.fill" catalog="system" width="128" height="96"/>

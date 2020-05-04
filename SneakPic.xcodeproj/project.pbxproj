@@ -23,6 +23,8 @@
 		065551F92424166300BC62B6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065551F82424166300BC62B6 /* LoginViewController.swift */; };
 		067BC4F5241ECBA100F510C2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 067BC4F4241ECBA100F510C2 /* GoogleService-Info.plist */; };
 		068EC0AD24390746007695DC /* MapPins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068EC0AC24390746007695DC /* MapPins.swift */; };
+		06D56A06245C9E6A0029D528 /* DirectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D56A05245C9E6A0029D528 /* DirectionsViewController.swift */; };
+		06D56A08245CA0190029D528 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06D56A07245CA0190029D528 /* MapKit.framework */; };
 		06F5DFBE240CBEF3006BD016 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F5DFBD240CBEF3006BD016 /* MapViewController.swift */; };
 		3D58E62623FCE95500E23401 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D58E62523FCE95500E23401 /* AppDelegate.swift */; };
 		3D58E62F23FCE95500E23401 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E62D23FCE95500E23401 /* Main.storyboard */; };
@@ -69,6 +71,8 @@
 		065551F82424166300BC62B6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		067BC4F4241ECBA100F510C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		068EC0AC24390746007695DC /* MapPins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPins.swift; sourceTree = "<group>"; };
+		06D56A05245C9E6A0029D528 /* DirectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsViewController.swift; sourceTree = "<group>"; };
+		06D56A07245CA0190029D528 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		06F5DFBD240CBEF3006BD016 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		29D35B8D5DAC3B743D76F553 /* Pods_SneakPic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SneakPic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D58E62223FCE95500E23401 /* SneakPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SneakPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06D56A08245CA0190029D528 /* MapKit.framework in Frameworks */,
 				7E979FE0D5D840D80A8847A8 /* Pods_SneakPic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,6 +145,7 @@
 				06F5DFBD240CBEF3006BD016 /* MapViewController.swift */,
 				0631879D24266BF90007940F /* SettingsViewController.swift */,
 				0631879F242674330007940F /* FeedViewController.swift */,
+				06D56A05245C9E6A0029D528 /* DirectionsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -222,6 +228,7 @@
 		9B566FE1F0261315E29BD88C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				06D56A07245CA0190029D528 /* MapKit.framework */,
 				29D35B8D5DAC3B743D76F553 /* Pods_SneakPic.framework */,
 				3F864E6091B73E8635FCC8E8 /* Pods_SneakPic_SneakPicUITests.framework */,
 				8B07FFC05275E12025E03440 /* Pods_SneakPicTests.framework */,
@@ -486,6 +493,7 @@
 				063187A62427B37F0007940F /* UserService.swift in Sources */,
 				06357B41240098E900691884 /* PreviewView.swift in Sources */,
 				065551F02423E15100BC62B6 /* Post.swift in Sources */,
+				06D56A06245C9E6A0029D528 /* DirectionsViewController.swift in Sources */,
 				063187A0242674330007940F /* FeedViewController.swift in Sources */,
 				06F5DFBE240CBEF3006BD016 /* MapViewController.swift in Sources */,
 				063187A82427B78E0007940F /* PostImageCell.swift in Sources */,

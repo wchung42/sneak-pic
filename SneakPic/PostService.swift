@@ -11,31 +11,32 @@ import Firebase
 
 import AVFoundation
 import CoreLocation
+import CoreMotion
 
 struct PostService {
-    static func create(for image: AVCapturePhoto, location: CLLocation) {
+    static func create(for image: AVCapturePhoto, location: CLLocation, position: CMQuaternion) {
         let imageRef = StorageReference.newPostImageReference()
         StorageService.uploadImage(image, at: imageRef) { (downloadURL) in
             guard let downloadURL = downloadURL else {
                 return
             }
             let urlString = downloadURL.absoluteString
-            create(forURLString: urlString, aspectHeight: 600, location: location)
+            create(forURLString: urlString, aspectHeight: 600, location: location, position: position)
 
             
         }
     }
     
-    private static func create(forURLString urlString: String, aspectHeight: CGFloat, location: CLLocation) {
+    private static func create(forURLString urlString: String, aspectHeight: CGFloat, location: CLLocation, position: CMQuaternion) {
         
-        let currentUser = Auth.auth().currentUser
+        let currentUserID = Auth.auth().currentUser?.uid
         
-        let post = Post(imageURL: urlString, imageHeight: aspectHeight, location: location)
+        let post = Post(imageURL: urlString, imageHeight: aspectHeight, location: location, position: position, userID: currentUserID!)
         
         
         let dict = post.dictValue
         
-        let postRef = Database.database().reference().child("test_photos").child(currentUser!.uid).childByAutoId()
+        let postRef = Database.database().reference().child("photos").childByAutoId()
         
         postRef.updateChildValues(dict)
     }

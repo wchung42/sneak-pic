@@ -24,11 +24,18 @@ class CameraViewController: UIViewController {
     var locationManager: CLLocationManager!
     let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTrueDepthCamera, .builtInDualCamera, .builtInWideAngleCamera], mediaType: .video, position: .unspecified)
 //    var storage = Storage.storage()
+    
+    var post: Post?
     @IBOutlet weak var previewView: PreviewView!
     
     @IBOutlet weak var currentX: UILabel!
     @IBOutlet weak var currentY: UILabel!
     @IBOutlet weak var currentZ: UILabel!
+    
+    @IBOutlet weak var targetX: UILabel!
+    @IBOutlet weak var targetY: UILabel!
+    @IBOutlet weak var targetZ: UILabel!
+    
     
     
     
@@ -36,11 +43,14 @@ class CameraViewController: UIViewController {
         super.viewDidLoad()
         checkAuthorizationCamera()
         setupLocationServices()
+        addTargetParams()
         motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
-        
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(gyroUpdate), userInfo: nil, repeats: true)
+        
+        
 //        storage = Storage.storage()
 //        let storageRef = storage.reference()
+        
     }
     
     @objc func gyroUpdate() {
@@ -49,6 +59,32 @@ class CameraViewController: UIViewController {
             self.currentX.text = "X: \(deviceMotion.attitude.pitch)"
             self.currentY.text = "Y: \(deviceMotion.attitude.roll)"
             self.currentZ.text = "Z: \(deviceMotion.attitude.yaw)"
+        }
+    }
+    
+    func addTargetParams() {
+        if post != nil {
+            currentX.isHidden = false
+            currentY.isHidden = false
+            currentZ.isHidden = false
+            
+            targetX.isHidden = false
+            targetY.isHidden = false
+            targetZ.isHidden = false
+            
+            targetX.text = "X: \(post!.position.x)"
+            targetY.text = "Y: \(post!.position.y)"
+            targetZ.text = "Z: \(post!.position.z)"
+        } else {
+            currentX.isHidden = true
+            currentY.isHidden = true
+            currentZ.isHidden = true
+            
+            targetX.isHidden = true
+            targetY.isHidden = true
+            targetZ.isHidden = true
+            
+            
         }
     }
     
@@ -117,6 +153,8 @@ class CameraViewController: UIViewController {
     
     @IBAction func cancelPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+        timer.invalidate()
+        motionManager.stopDeviceMotionUpdates()
     }
     
     
@@ -136,7 +174,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         guard error == nil else { print("Error capturing photo: \(error!)"); return }
         
         
-        PostService.create(for: photo, location: (locationManager?.location)!)
+        PostService.create(for: photo, location: (locationManager?.location)!, position: (motionManager.deviceMotion?.attitude.quaternion)!)
         
         
 //        //saving photo to library

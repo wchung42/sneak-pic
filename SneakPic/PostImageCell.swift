@@ -11,7 +11,19 @@ import UIKit
 class PostImageCell: UITableViewCell {
     
     @IBOutlet weak var postImageView: UIImageView!
+    var post: Post?
+    
+    weak var delegate: PostImageCellDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    @IBAction func getDirections(_ sender: Any) {
+        self.delegate?.getDirections(self, directionButtonTappedFor: post!)
+    }
+    
+}
+
+protocol PostImageCellDelegate: AnyObject {
+    func getDirections(_ postImageCell: PostImageCell, directionButtonTappedFor post: Post)
 }

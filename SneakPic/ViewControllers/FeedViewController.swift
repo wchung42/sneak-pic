@@ -17,19 +17,17 @@ class FeedViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
-    var refreshController: UIRefreshControl!
+    
     var posts = [Post]()
     var visiblePosts: [Post] = []
+    var selectedPost: Post?
     
     let nyc = CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        refreshController = UIRefreshControl()
-        feedTableView.addSubview(refreshController)
-        refreshController.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshController.addTarget(self, action: #selector(getPosts), for: .valueChanged)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,18 +39,34 @@ class FeedViewController: UIViewController {
         getPosts()
     }
     
-    @objc func getPosts() {
-        UserService.posts(for: Auth.auth().currentUser!) { (posts) in
-            self.posts = posts
+//    @objc func getPosts() {
+//        UserService.posts(for: Auth.auth().currentUser!) { (posts) in
+//            self.posts = posts
+//            self.feedTableView.reloadData()
+//            self.showPointsOnMap()
+//            print(posts)
+//        }
+//        refreshController.endRefreshing()
+//
+//    }
+    
+    func getPosts() {
+        let ref = Database.database().reference().child("photos")
+        ref.observe(.value) { (snapshot) in
+            guard let snapshot = snapshot.children.allObjects as? [DataSnapshot] else {
+                print("no posts...")
+                return
+            }
+            print(snapshot)
+            self.posts = snapshot.reversed().compactMap(Post.init)
             self.feedTableView.reloadData()
             self.showPointsOnMap()
+            print(self.posts)
         }
-        refreshController.endRefreshing()
-
     }
     
     func configureTableView() {
-        feedTableView.tableFooterView = UIView()
+//        feedTableView.tableFooterView = UIView()
         feedTableView.separatorStyle = .singleLine
     }
     
@@ -85,15 +99,15 @@ class FeedViewController: UIViewController {
     
 
     
-    /*
-    // MARK: - Navigation
+    
+// MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.destination is DirectionsViewController {
+            let vc = segue.destination as? DirectionsViewController
+            vc?.post = selectedPost!
+        }
     }
-    */
 
 }
 
@@ -106,13 +120,21 @@ extension FeedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let post = posts[indexPath.row]
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostImageCell", for: indexPath) as! PostImageCell
         
         let imageURL = URL(string: post.imageURL)
         cell.postImageView.kf.setImage(with: imageURL)
+        cell.post = post
+        cell.delegate = self
         
         return cell
+    }
+}
+
+extension FeedViewController: PostImageCellDelegate {
+    func getDirections(_ postImageCell: PostImageCell, directionButtonTappedFor post: Post) {
+       selectedPost = post
+        print("get directions")
     }
 }
 
@@ -131,7 +153,6 @@ extension FeedViewController: UITableViewDelegate {
             selectPinPointOnMap(annotation: annotation)
         }
     }
-    
     
     
     func selectPinPointOnMap(annotation: MapPin) {
