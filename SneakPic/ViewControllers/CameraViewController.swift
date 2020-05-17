@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CameraViewController.swift
 //  Sneak-Pic
 //
 //  Created by Michele Ruocco on 2/21/20.
@@ -20,21 +20,31 @@ class CameraViewController: UIViewController {
     // camera is a 4:3 aspect ratio
     var captureSession = AVCaptureSession()
     var photoOutput = AVCapturePhotoOutput()
+    var capturePhoto: AVCapturePhoto?
+    
+    var photoPosition: CMQuaternion?
+    var currentPosition: CLLocation?
     
     var locationManager: CLLocationManager!
     let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInTrueDepthCamera, .builtInDualCamera, .builtInWideAngleCamera], mediaType: .video, position: .unspecified)
 //    var storage = Storage.storage()
     
     var post: Post?
+    var isNewPost = false
     @IBOutlet weak var previewView: PreviewView!
+    
+    @IBOutlet weak var orignalImageView: UIImageView!
     
     @IBOutlet weak var currentX: UILabel!
     @IBOutlet weak var currentY: UILabel!
     @IBOutlet weak var currentZ: UILabel!
+    @IBOutlet weak var currentLabel: UILabel!
     
     @IBOutlet weak var targetX: UILabel!
     @IBOutlet weak var targetY: UILabel!
     @IBOutlet weak var targetZ: UILabel!
+    @IBOutlet weak var targetLable: UILabel!
+    
     
     
     
@@ -42,12 +52,21 @@ class CameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAuthorizationCamera()
+        
+        if post == nil {
+            isNewPost = true
+        } else {
+            isNewPost = false
+            let imageURL = URL(string: post!.imageURL)
+            orignalImageView.kf.setImage(with: imageURL)
+        }
+        
         setupLocationServices()
         addTargetParams()
-        motionManager.startDeviceMotionUpdates(using: .xMagneticNorthZVertical)
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(gyroUpdate), userInfo: nil, repeats: true)
-        
-        
+        motionManager.startDeviceMotionUpdates(using: .xTrueNorthZVertical)
+        motionManager.deviceMotionUpdateInterval = 0.5
+        motionManager.showsDeviceMovementDisplay = true
+        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(gyroUpdate), userInfo: nil, repeats: true)
 //        storage = Storage.storage()
 //        let storageRef = storage.reference()
         
@@ -55,35 +74,45 @@ class CameraViewController: UIViewController {
     
     @objc func gyroUpdate() {
         if let deviceMotion = motionManager.deviceMotion {
-            print(deviceMotion.attitude.quaternion)
-            self.currentX.text = "X: \(deviceMotion.attitude.pitch)"
-            self.currentY.text = "Y: \(deviceMotion.attitude.roll)"
-            self.currentZ.text = "Z: \(deviceMotion.attitude.yaw)"
+//            print(deviceMotion.attitude.quaternion)
+            
+            
+            self.currentX.text = "X: \(deviceMotion.attitude.quaternion.x)"
+            self.currentY.text = "Y: \(deviceMotion.attitude.quaternion.y)"
+            self.currentZ.text = "Z: \(deviceMotion.attitude.quaternion.z)"
         }
     }
     
     func addTargetParams() {
-        if post != nil {
-            currentX.isHidden = false
-            currentY.isHidden = false
-            currentZ.isHidden = false
-            
-            targetX.isHidden = false
-            targetY.isHidden = false
-            targetZ.isHidden = false
-            
-            targetX.text = "X: \(post!.position.x)"
-            targetY.text = "Y: \(post!.position.y)"
-            targetZ.text = "Z: \(post!.position.z)"
-        } else {
+        if isNewPost {
             currentX.isHidden = true
             currentY.isHidden = true
             currentZ.isHidden = true
+            currentLabel.isHidden = true
             
             targetX.isHidden = true
             targetY.isHidden = true
             targetZ.isHidden = true
+            targetLable.isHidden = true
             
+            orignalImageView.isHidden = true
+        } else {
+            currentX.isHidden = false
+            currentY.isHidden = false
+            currentZ.isHidden = false
+            currentLabel.isHidden = false
+            
+            targetX.isHidden = false
+            targetY.isHidden = false
+            targetZ.isHidden = false
+            targetLable.isHidden = false
+            
+            targetX.text = "X: \(post!.position.x)"
+            targetY.text = "Y: \(post!.position.y)"
+            targetZ.text = "Z: \(post!.position.z)"
+            
+            orignalImageView.isHidden = false
+            orignalImageView.alpha = 0.4
             
         }
     }
@@ -140,6 +169,12 @@ class CameraViewController: UIViewController {
     }
 
     @IBAction func didTapCaptureButton(_ sender: Any) {
+        
+        photoPosition = motionManager.deviceMotion?.attitude.quaternion
+        currentPosition = locationManager.location
+        timer.invalidate()
+        motionManager.stopDeviceMotionUpdates()
+        
         let photoSettings: AVCapturePhotoSettings
         if self.photoOutput.availablePhotoCodecTypes.contains(.jpeg) {
             photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
@@ -147,7 +182,7 @@ class CameraViewController: UIViewController {
             photoSettings = AVCapturePhotoSettings()
         }
         photoSettings.flashMode = .auto
-        photoSettings.isAutoStillImageStabilizationEnabled = self.photoOutput.isStillImageStabilizationSupported
+//        photoSettings.isAutoStillImageStabilizationEnabled = self.photoOutput.isStillImageStabilizationSupported
         self.photoOutput.capturePhoto(with: photoSettings, delegate: self)
     }
     
@@ -158,6 +193,24 @@ class CameraViewController: UIViewController {
     }
     
     
+// MARK: -Navigation
+    func returnToFeed() {
+        timer.invalidate()
+        motionManager.stopDeviceMotionUpdates()
+        performSegue(withIdentifier: "unwindToFeed", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is CompareViewController {
+            print("going to compare")
+            let vc = segue.destination as? CompareViewController
+            vc?.originalPhoto = orignalImageView.image
+            vc?.newPhoto = capturePhoto
+            vc?.currentPosition = currentPosition
+            vc?.photoPosition = photoPosition
+            vc?.originalPost = post
+        }
+    }
 }
 
 extension CameraViewController: CLLocationManagerDelegate {
@@ -174,7 +227,21 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
         guard error == nil else { print("Error capturing photo: \(error!)"); return }
         
         
-        PostService.create(for: photo, location: (locationManager?.location)!, position: (motionManager.deviceMotion?.attitude.quaternion)!)
+        
+        if isNewPost {
+            PostService.create(for: photo, location: (locationManager?.location)!, position: photoPosition!, locationID: nil)
+            
+            let alert = UIAlertController(title: "Photo Saved", message: "Return to the Feed", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "return", style: .default, handler: { (action) in
+                self.returnToFeed()
+            }))
+            present(alert, animated: true, completion: nil)
+        } else {
+            capturePhoto = photo
+            performSegue(withIdentifier: "comparePhotos", sender: self)
+        }
+        
+    
         
         
 //        //saving photo to library

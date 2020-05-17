@@ -20,7 +20,8 @@ class Post {
     let altitude: CLLocationDistance
     let position: CMQuaternion
     let userID: String
-    init(imageURL: String, imageHeight: CGFloat, location: CLLocation, position: CMQuaternion, userID: String) {
+    let LocationID: String
+    init(imageURL: String, imageHeight: CGFloat, location: CLLocation, position: CMQuaternion, userID: String, locationID: String) {
         self.imageURL = imageURL
         self.imageHeight = imageHeight
         self.creationDate = Date()
@@ -28,7 +29,7 @@ class Post {
         self.altitude = location.altitude
         self.position = position
         self.userID = userID
-        
+        self.LocationID = locationID
     }
     
     var dictValue: [String : Any] {
@@ -44,7 +45,8 @@ class Post {
                 "position/x" : position.x,
                 "position/y" : position.y,
                 "position/z" : position.z,
-                "position/w" : position.w]
+                "position/w" : position.w,
+                "locationID" : LocationID]
     }
     
     init?(snapshot: DataSnapshot) {
@@ -61,7 +63,8 @@ class Post {
             let x = sensorDict["x"] as? Double,
             let y = sensorDict["y"] as? Double,
             let z = sensorDict["z"] as? Double,
-            let w = sensorDict["w"] as? Double
+            let w = sensorDict["w"] as? Double,
+            let locID = dict["locationID"] as? String
         else {
             print("somethings wrong")
             return nil
@@ -76,6 +79,7 @@ class Post {
         self.altitude = altitude
         self.position = CMQuaternion(x: x, y: y, z: z, w: w)
         self.userID = userID
+        self.LocationID = locID
     }
     
     static func ==(lhs: Post, rhs: Post) -> Bool {

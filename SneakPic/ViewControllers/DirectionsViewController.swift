@@ -77,8 +77,8 @@ class DirectionsViewController: UIViewController {
                     let region = CLCircularRegion(center: step.polyline.coordinate, radius: 20, identifier: "\(i)")
                     self.locationManager.startMonitoring(for: region)
                     
-                    let circle = MKCircle(center: region.center, radius: region.radius)
-                    self.mapView.addOverlay(circle)
+                    //let circle = MKCircle(center: region.center, radius: region.radius)
+                    //self.mapView.addOverlay(circle)
                 }
                 
                 

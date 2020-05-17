@@ -18,9 +18,13 @@ class FeedViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
     
+    
+    
     var posts = [Post]()
     var visiblePosts: [Post] = []
     var selectedPost: Post?
+    
+    var locationPosts = [[Post]]()
     
     let nyc = CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060)
     
@@ -36,7 +40,9 @@ class FeedViewController: UIViewController {
         setMapInitCoordinates()
         configureTableView()
         
-        getPosts()
+//        getPosts()
+        getPostByLocation()
+        print(locationPosts)
     }
     
 //    @objc func getPosts() {
@@ -63,6 +69,29 @@ class FeedViewController: UIViewController {
             self.showPointsOnMap()
             print(self.posts)
         }
+    }
+    
+    
+    func getPostByLocation() {
+        let ref = Database.database().reference()
+        ref.child("Locations").observe(.value) { (locSnapshot) in
+            guard let locSnap = locSnapshot.children.allObjects as? [DataSnapshot] else {
+                print("no locations")
+                return
+            }
+            for locKey in locSnap {
+                ref.child("photos").queryOrdered(byChild: "locationID").queryEqual(toValue: locKey.key).observeSingleEvent(of: .value) { (snapshot) in
+                    guard let snapshot = snapshot.children.allObjects as? [DataSnapshot] else {
+                        print("some error")
+                        return
+                    }
+                    let arrayOfPosts = snapshot.compactMap(Post.init)
+                    self.locationPosts.append(arrayOfPosts)
+                }
+            }
+        }
+        
+        
     }
     
     func configureTableView() {
@@ -107,6 +136,10 @@ class FeedViewController: UIViewController {
             let vc = segue.destination as? DirectionsViewController
             vc?.post = selectedPost!
         }
+    }
+    
+    @IBAction func unwinde(_ seg: UIStoryboardSegue) {
+        
     }
 
 }

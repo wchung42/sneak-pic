@@ -14,25 +14,37 @@ import CoreLocation
 import CoreMotion
 
 struct PostService {
-    static func create(for image: AVCapturePhoto, location: CLLocation, position: CMQuaternion) {
+    static func create(for image: AVCapturePhoto, location: CLLocation, position: CMQuaternion, locationID: String?) {
         let imageRef = StorageReference.newPostImageReference()
         StorageService.uploadImage(image, at: imageRef) { (downloadURL) in
             guard let downloadURL = downloadURL else {
                 return
             }
             let urlString = downloadURL.absoluteString
-            create(forURLString: urlString, aspectHeight: 600, location: location, position: position)
+            create(forURLString: urlString, aspectHeight: 600, location: location, position: position, locationID: locationID)
 
             
         }
     }
     
-    private static func create(forURLString urlString: String, aspectHeight: CGFloat, location: CLLocation, position: CMQuaternion) {
+    private static func create(forURLString urlString: String, aspectHeight: CGFloat, location: CLLocation, position: CMQuaternion, locationID: String?) {
         
         let currentUserID = Auth.auth().currentUser?.uid
         
-        let post = Post(imageURL: urlString, imageHeight: aspectHeight, location: location, position: position, userID: currentUserID!)
+        var locID = ""
+        if locationID == nil {
+            //new location
+            let locRef = Database.database().reference().child("Locations").childByAutoId()
+            locID = locRef.key!
+            let locDict = ["latitude" : location.coordinate.latitude,
+                       "longitude" : location.coordinate.longitude]
+            locRef.updateChildValues(locDict)
+        } else {
+            locID = locationID!
+            
+        }
         
+        let post = Post(imageURL: urlString, imageHeight: aspectHeight, location: location, position: position, userID: currentUserID!, locationID: locID)
         
         let dict = post.dictValue
         

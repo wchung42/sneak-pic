@@ -22,10 +22,10 @@
 		065551F42424158C00BC62B6 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 065551F32424158C00BC62B6 /* Login.storyboard */; };
 		065551F92424166300BC62B6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065551F82424166300BC62B6 /* LoginViewController.swift */; };
 		067BC4F5241ECBA100F510C2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 067BC4F4241ECBA100F510C2 /* GoogleService-Info.plist */; };
+		0684F619246F10AB00AACE73 /* CompareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0684F618246F10AB00AACE73 /* CompareViewController.swift */; };
 		068EC0AD24390746007695DC /* MapPins.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068EC0AC24390746007695DC /* MapPins.swift */; };
 		06D56A06245C9E6A0029D528 /* DirectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D56A05245C9E6A0029D528 /* DirectionsViewController.swift */; };
 		06D56A08245CA0190029D528 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06D56A07245CA0190029D528 /* MapKit.framework */; };
-		06F5DFBE240CBEF3006BD016 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F5DFBD240CBEF3006BD016 /* MapViewController.swift */; };
 		3D58E62623FCE95500E23401 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D58E62523FCE95500E23401 /* AppDelegate.swift */; };
 		3D58E62F23FCE95500E23401 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E62D23FCE95500E23401 /* Main.storyboard */; };
 		3D58E63123FCE95800E23401 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D58E63023FCE95800E23401 /* Assets.xcassets */; };
@@ -70,10 +70,10 @@
 		065551F32424158C00BC62B6 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		065551F82424166300BC62B6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		067BC4F4241ECBA100F510C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0684F618246F10AB00AACE73 /* CompareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareViewController.swift; sourceTree = "<group>"; };
 		068EC0AC24390746007695DC /* MapPins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPins.swift; sourceTree = "<group>"; };
 		06D56A05245C9E6A0029D528 /* DirectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionsViewController.swift; sourceTree = "<group>"; };
 		06D56A07245CA0190029D528 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		06F5DFBD240CBEF3006BD016 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		29D35B8D5DAC3B743D76F553 /* Pods_SneakPic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SneakPic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D58E62223FCE95500E23401 /* SneakPic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SneakPic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D58E62523FCE95500E23401 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -142,10 +142,10 @@
 				065551F82424166300BC62B6 /* LoginViewController.swift */,
 				06318797242556620007940F /* CreateAccountViewController.swift */,
 				06357B3E240098CD00691884 /* CameraViewController.swift */,
-				06F5DFBD240CBEF3006BD016 /* MapViewController.swift */,
 				0631879D24266BF90007940F /* SettingsViewController.swift */,
 				0631879F242674330007940F /* FeedViewController.swift */,
 				06D56A05245C9E6A0029D528 /* DirectionsViewController.swift */,
+				0684F618246F10AB00AACE73 /* CompareViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -484,6 +484,7 @@
 				06318798242556620007940F /* CreateAccountViewController.swift in Sources */,
 				065551F92424166300BC62B6 /* LoginViewController.swift in Sources */,
 				0631879E24266BF90007940F /* SettingsViewController.swift in Sources */,
+				0684F619246F10AB00AACE73 /* CompareViewController.swift in Sources */,
 				068EC0AD24390746007695DC /* MapPins.swift in Sources */,
 				065551EC2422EAA200BC62B6 /* StorageService.swift in Sources */,
 				065551EE2422EDFA00BC62B6 /* PostService.swift in Sources */,
@@ -495,7 +496,6 @@
 				065551F02423E15100BC62B6 /* Post.swift in Sources */,
 				06D56A06245C9E6A0029D528 /* DirectionsViewController.swift in Sources */,
 				063187A0242674330007940F /* FeedViewController.swift in Sources */,
-				06F5DFBE240CBEF3006BD016 /* MapViewController.swift in Sources */,
 				063187A82427B78E0007940F /* PostImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
