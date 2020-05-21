@@ -42,6 +42,8 @@
 	<string>Need the camera to take photos</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To direct to locations</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>to know where you are</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>need to save photos to the phone</string>
 	<key>UIBackgroundModes</key>

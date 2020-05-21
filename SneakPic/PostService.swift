@@ -14,20 +14,20 @@ import CoreLocation
 import CoreMotion
 
 struct PostService {
-    static func create(for image: AVCapturePhoto, location: CLLocation, position: CMQuaternion, locationID: String?) {
+    static func create(for image: AVCapturePhoto, location: CLLocation, heading: CLLocationDegrees, position: attitude, locationID: String?) {
         let imageRef = StorageReference.newPostImageReference()
         StorageService.uploadImage(image, at: imageRef) { (downloadURL) in
             guard let downloadURL = downloadURL else {
                 return
             }
             let urlString = downloadURL.absoluteString
-            create(forURLString: urlString, aspectHeight: 600, location: location, position: position, locationID: locationID)
+            create(forURLString: urlString, aspectHeight: 600, location: location, heading: heading, position: position, locationID: locationID)
 
             
         }
     }
     
-    private static func create(forURLString urlString: String, aspectHeight: CGFloat, location: CLLocation, position: CMQuaternion, locationID: String?) {
+    private static func create(forURLString urlString: String, aspectHeight: CGFloat, location: CLLocation, heading: CLLocationDegrees, position: attitude, locationID: String?) {
         
         let currentUserID = Auth.auth().currentUser?.uid
         
@@ -44,7 +44,7 @@ struct PostService {
             
         }
         
-        let post = Post(imageURL: urlString, imageHeight: aspectHeight, location: location, position: position, userID: currentUserID!, locationID: locID)
+        let post = Post(imageURL: urlString, imageHeight: aspectHeight, location: location, position: position, userID: currentUserID!, locationID: locID, heading: heading)
         
         let dict = post.dictValue
         

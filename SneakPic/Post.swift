@@ -18,10 +18,11 @@ class Post {
     let creationDate: Date
     let locationCoordinates: CLLocationCoordinate2D
     let altitude: CLLocationDistance
-    let position: CMQuaternion
+    let position: attitude
     let userID: String
     let LocationID: String
-    init(imageURL: String, imageHeight: CGFloat, location: CLLocation, position: CMQuaternion, userID: String, locationID: String) {
+    let heading: Double
+    init(imageURL: String, imageHeight: CGFloat, location: CLLocation, position: attitude, userID: String, locationID: String, heading: Double) {
         self.imageURL = imageURL
         self.imageHeight = imageHeight
         self.creationDate = Date()
@@ -30,6 +31,7 @@ class Post {
         self.position = position
         self.userID = userID
         self.LocationID = locationID
+        self.heading = heading
     }
     
     var dictValue: [String : Any] {
@@ -42,15 +44,15 @@ class Post {
                 "latitude" : locationCoordinates.latitude,
                 "longitude" : locationCoordinates.longitude,
                 "altitude" : altitude,
-                "position/x" : position.x,
-                "position/y" : position.y,
-                "position/z" : position.z,
-                "position/w" : position.w,
+                "position/pitch" : position.pitch,
+                "position/roll" : position.roll,
+                "position/yaw" : position.yaw,
+                "position/h" : heading,
                 "locationID" : LocationID]
     }
     
     init?(snapshot: DataSnapshot) {
-        print(snapshot.value)
+//        print(snapshot.value)
         guard let dict = snapshot.value as? [String : Any],
             let sensorDict = snapshot.childSnapshot(forPath: "position").value as? [String : Any],
             let userID = dict["userID"] as? String,
@@ -60,10 +62,10 @@ class Post {
             let lat = dict["latitude"] as? CLLocationDegrees,
             let long = dict["longitude"] as? CLLocationDegrees,
             let altitude = dict["altitude"] as? CLLocationDistance,
-            let x = sensorDict["x"] as? Double,
-            let y = sensorDict["y"] as? Double,
-            let z = sensorDict["z"] as? Double,
-            let w = sensorDict["w"] as? Double,
+            let pitch = sensorDict["pitch"] as? Double,
+            let roll = sensorDict["roll"] as? Double,
+            let yaw = sensorDict["yaw"] as? Double,
+            let h = sensorDict["h"] as? Double,
             let locID = dict["locationID"] as? String
         else {
             print("somethings wrong")
@@ -77,12 +79,19 @@ class Post {
         self.creationDate = Date(timeIntervalSince1970: createdAgo)
         self.locationCoordinates = CLLocationCoordinate2D(latitude: lat, longitude: long)
         self.altitude = altitude
-        self.position = CMQuaternion(x: x, y: y, z: z, w: w)
+        self.position = attitude(pitch: pitch, roll: roll, yaw: yaw)
         self.userID = userID
         self.LocationID = locID
+        self.heading = h
     }
     
     static func ==(lhs: Post, rhs: Post) -> Bool {
         return lhs.key == rhs.key && lhs.imageURL == rhs.imageURL
     }
+}
+
+struct attitude {
+    let pitch: Double
+    let roll: Double
+    let yaw: Double
 }

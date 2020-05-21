@@ -53,7 +53,7 @@ class DirectionsViewController: UIViewController {
         let directionsRequest = MKDirections.Request()
         directionsRequest.source = sourceMapItem
         directionsRequest.destination = destination
-        directionsRequest.transportType = .automobile
+        directionsRequest.transportType = .walking
         
         let directions = MKDirections(request: directionsRequest)
         directions.calculate { (response, error) in

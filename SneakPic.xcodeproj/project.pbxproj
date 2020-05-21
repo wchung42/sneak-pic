@@ -672,16 +672,18 @@
 			baseConfigurationReference = DF3CE15AE9579FC546AAE2E4 /* Pods-SneakPic.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G3ASW8VXQN;
+				DEVELOPMENT_TEAM = 6T42X26GD4;
 				INFOPLIST_FILE = SneakPic/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = sneakpic.SneakPic;
+				PRODUCT_BUNDLE_IDENTIFIER = sneakpic.SneakPic.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -692,16 +694,18 @@
 			baseConfigurationReference = A02C899D7D02F6ECDFA31303 /* Pods-SneakPic.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G3ASW8VXQN;
+				DEVELOPMENT_TEAM = 6T42X26GD4;
 				INFOPLIST_FILE = SneakPic/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = sneakpic.SneakPic;
+				PRODUCT_BUNDLE_IDENTIFIER = sneakpic.SneakPic.2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

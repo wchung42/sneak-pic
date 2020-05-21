@@ -18,7 +18,6 @@ class MapPin: NSObject, MKAnnotation {
         super.init()
     }
     
-    var title: String? { return post.creationDate.description }
-    var subtitle: String? { return "(\(post.locationCoordinates.latitude), \(post.locationCoordinates.longitude))"
-    }
+//    var title: String? { return post.creationDate.description }
+//    var subtitle: String? { return "(\(post.locationCoordinates.latitude), \(post.locationCoordinates.longitude))" }
 }

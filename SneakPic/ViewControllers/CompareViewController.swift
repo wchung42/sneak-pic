@@ -20,8 +20,8 @@ class CompareViewController: UIViewController {
     var originalPost: Post?
     
     var currentPosition: CLLocation?
-    var photoPosition: CMQuaternion?
-    
+    var photoPosition: attitude?
+    var currentHeading: CLLocationDegrees?
     
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var segmentController: UISegmentedControl!
@@ -38,27 +38,27 @@ class CompareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         takenPhoto = UIImage(data: (newPhoto?.fileDataRepresentation())!)
-        photoImageView.image = originalPhoto
+        photoImageView.image = takenPhoto
         addLabels()
     }
     
     func addLabels() {
-        originalLabelX.text = "X: \(originalPost!.position.x)"
-        originalLabelY.text = "Y: \(originalPost!.position.y)"
-        originalLabelZ.text = "Z: \(originalPost!.position.z)"
+        originalLabelX.text = "X: \(originalPost!.position.pitch)"
+        originalLabelY.text = "Y: \(originalPost!.position.roll)"
+        originalLabelZ.text = "Z: \(originalPost!.position.yaw)"
         
-        takenLabelX.text = "X: \(photoPosition!.x)"
-        takenLabelY.text = "Y: \(photoPosition!.y)"
-        takenLabelZ.text = "Z: \(photoPosition!.z)"
+        takenLabelX.text = "X: \(photoPosition!.pitch)"
+        takenLabelY.text = "Y: \(photoPosition!.roll)"
+        takenLabelZ.text = "Z: \(photoPosition!.yaw)"
     }
     
     @IBAction func segmentChanged(_ sender: Any) {
         switch segmentController.selectedSegmentIndex {
         case 0:
             // original
-            photoImageView.image = originalPhoto
-        case 1:
             photoImageView.image = takenPhoto
+        case 1:
+            photoImageView.image = originalPhoto
         default:
             break
         }
@@ -69,7 +69,7 @@ class CompareViewController: UIViewController {
     }
     
     func savePhoto() {
-        PostService.create(for: newPhoto!, location: currentPosition!, position: photoPosition!, locationID: originalPost?.LocationID)
+        PostService.create(for: newPhoto!, location: currentPosition!, heading: currentHeading!, position: photoPosition!, locationID: originalPost?.LocationID)
     }
     @IBAction func donePressed(_ sender: Any) {
         let doneAlert = UIAlertController(title: "Save Photo?", message: "Would you like to upload your photo", preferredStyle: .alert)

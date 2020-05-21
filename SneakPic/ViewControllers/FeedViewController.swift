@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import Kingfisher
 import MapKit
+import CoreLocation
 
 class FeedViewController: UIViewController {
 
@@ -18,31 +19,49 @@ class FeedViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
     
-    
+    let locationManager = CLLocationManager()
     
     var posts = [Post]()
-    var visiblePosts: [Post] = []
+    var selectedPostWithLocID: [Post] = []
     var selectedPost: Post?
     
     var locationPosts = [[Post]]()
-    
+    var postLocations = [Post]()
     let nyc = CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060)
+    
+    var annotationIsSelected = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
+        setupLocationServices()
+        
         setMapInitCoordinates()
         configureTableView()
-        
-//        getPosts()
+        mapView.delegate = self
+//        mapView.showsUserLocation = true
+        getPosts()
         getPostByLocation()
-        print(locationPosts)
+//        print(locationPosts)
+//        for i in locationPosts {
+//            print(i)
+//        }
+    }
+    
+    func setupLocationServices() {
+        if CLLocationManager.locationServicesEnabled() {
+//            locationManager.delegate = self
+//            locationManager.startUpdatingLocation()
+        }
     }
     
 //    @objc func getPosts() {
@@ -63,11 +82,12 @@ class FeedViewController: UIViewController {
                 print("no posts...")
                 return
             }
-            print(snapshot)
+//            print(snapshot)
             self.posts = snapshot.reversed().compactMap(Post.init)
             self.feedTableView.reloadData()
-            self.showPointsOnMap()
-            print(self.posts)
+            self.selectedPostWithLocID = self.posts
+//            self.showPointsOnMap()
+//            print(self.posts)
         }
     }
     
@@ -85,24 +105,32 @@ class FeedViewController: UIViewController {
                         print("some error")
                         return
                     }
-                    let arrayOfPosts = snapshot.compactMap(Post.init)
+//                     print(snapshot)
+                    let arrayOfPosts = snapshot.reversed().compactMap(Post.init)
                     self.locationPosts.append(arrayOfPosts)
+                    
+//                    print(arrayOfPosts[0])
+                    self.postLocations.append(arrayOfPosts[0])
+//                    print(self.postLocations)
+                    self.showPointsOnMap()
+
                 }
             }
+//            print(self.postLocations)
         }
         
-        
+
     }
     
     func configureTableView() {
-//        feedTableView.tableFooterView = UIView()
+        feedTableView.tableFooterView = UIView()
         feedTableView.separatorStyle = .singleLine
     }
     
     func showPointsOnMap() {
         mapView.removeAnnotations(mapView.annotations)
         
-        for post in posts {
+        for post in postLocations {
             let pin = MapPin(point: post)
             mapView.addAnnotation(pin)
         }
@@ -114,18 +142,17 @@ class FeedViewController: UIViewController {
         self.mapView.setRegion(self.mapView.regionThatFits(visibleRegion), animated: true)
     }
     
-    func filterVisiblePost() {
-        let visibleAnnotations = self.mapView.annotations(in: self.mapView.visibleMapRect)
-        var annotations = [MapPin]()
-        for visibleAnnotation in visibleAnnotations {
-            if let annotation = visibleAnnotation as? MapPin {
-                annotations.append(annotation)
-            }
-        }
-        self.visiblePosts = annotations.map({$0.post})
-        self.feedTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
-    }
-    
+//    func filterVisiblePost() {
+//        let visibleAnnotations = self.mapView.annotations(in: self.mapView.visibleMapRect)
+//        var annotations = [MapPin]()
+//        for visibleAnnotation in visibleAnnotations {
+//            if let annotation = visibleAnnotation as? MapPin {
+//                annotations.append(annotation)
+//            }
+//        }
+//        self.visiblePosts = annotations.map({$0.post})
+//        self.feedTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+//    }
 
     
     
@@ -148,11 +175,26 @@ class FeedViewController: UIViewController {
 
 extension FeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        switch annotationIsSelected {
+        case true:
+            return selectedPostWithLocID.count
+        default:
+            return posts.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let post = posts[indexPath.row]
+        var post: Post
+        
+        switch annotationIsSelected {
+        case true:
+            print(indexPath.row)
+            post = selectedPostWithLocID[indexPath.row]
+        default:
+            post = posts[indexPath.row]
+        }
+        
+//        let post = posts[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostImageCell", for: indexPath) as! PostImageCell
         
         let imageURL = URL(string: post.imageURL)
@@ -175,14 +217,14 @@ extension FeedViewController: PostImageCellDelegate {
 
 extension FeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let post = posts[indexPath.row]
+//        let post = posts[indexPath.row]
         
-        return post.imageHeight
+        return 550
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let point = posts[indexPath.row]
-        if let annotation = (mapView.annotations as? [MapPin])?.filter({ $0.post == point}).first {
+        if let annotation = (mapView.annotations as? [MapPin])?.filter({ $0.post.LocationID == point.LocationID}).first {
             selectPinPointOnMap(annotation: annotation)
         }
     }
@@ -194,7 +236,6 @@ extension FeedViewController: UITableViewDelegate {
             self.mapView.setCenter(annotation.coordinate, animated: true)
         }
     }
-    
 }
 
 // MARK: - MapView Delegates
@@ -216,7 +257,27 @@ extension FeedViewController: MKMapViewDelegate {
         return annotationView
     }
     
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        filterVisiblePost()
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("annotation selected")
+        if let annotation = view.annotation as? MapPin {
+            annotationIsSelected = true
+            selectedPostWithLocID = posts.filter { $0.LocationID == annotation.post.LocationID}
+            DispatchQueue.main.async { self.feedTableView.reloadData() }
+//            print("annotation selected \(annotation.post.LocationID)")
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("annotation deselected")
+            annotationIsSelected = false
+            DispatchQueue.main.async { self.feedTableView.reloadData() }
+    }
+
+}
+
+
+extension FeedViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
 }
