@@ -82,7 +82,7 @@ class DirectionsViewController: UIViewController {
                 }
                 
                 
-                let initialMessage = "In \(self.steps[1].distance) meter, \(self.steps[1].instructions)."
+                let initialMessage = "In \(self.steps[1].distance) meters, \(self.steps[1].instructions)."
                 
                 self.directionLabel.text = initialMessage
                 self.stepCounter += 1

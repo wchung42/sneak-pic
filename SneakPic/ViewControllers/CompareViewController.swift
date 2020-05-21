@@ -27,11 +27,11 @@ class CompareViewController: UIViewController {
     @IBOutlet weak var segmentController: UISegmentedControl!
     
     @IBOutlet weak var originalLabelX: UILabel!
-    @IBOutlet weak var originalLabelY: UILabel!
+    @IBOutlet weak var originalLabelH: UILabel!
     @IBOutlet weak var originalLabelZ: UILabel!
     
     @IBOutlet weak var takenLabelX: UILabel!
-    @IBOutlet weak var takenLabelY: UILabel!
+    @IBOutlet weak var takenLabelH: UILabel!
     @IBOutlet weak var takenLabelZ: UILabel!
     
     
@@ -43,13 +43,13 @@ class CompareViewController: UIViewController {
     }
     
     func addLabels() {
-        originalLabelX.text = "X: \(originalPost!.position.pitch)"
-        originalLabelY.text = "Y: \(originalPost!.position.roll)"
-        originalLabelZ.text = "Z: \(originalPost!.position.yaw)"
+        originalLabelX.text = String(format: "X: %.4f", originalPost!.position.pitch)
+        originalLabelZ.text = String(format: "Z: %.4f", originalPost!.position.yaw)
+        originalLabelH.text = String(format: "H: %.3f", originalPost!.heading)
         
-        takenLabelX.text = "X: \(photoPosition!.pitch)"
-        takenLabelY.text = "Y: \(photoPosition!.roll)"
-        takenLabelZ.text = "Z: \(photoPosition!.yaw)"
+        takenLabelX.text = String(format: "X: %.4f", photoPosition!.pitch)
+        takenLabelZ.text = String(format: "Z: %.4f", photoPosition!.yaw)
+        takenLabelH.text = String(format: "H: %.3f", currentHeading!)
     }
     
     @IBAction func segmentChanged(_ sender: Any) {

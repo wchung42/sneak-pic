@@ -100,7 +100,7 @@ class CameraViewController: UIViewController {
 //            print(deviceMotion.attitude.quaternion)
             
             let x = deviceMotion.attitude.pitch
-            let y = deviceMotion.attitude.roll
+//            let y = deviceMotion.attitude.roll
             let z = deviceMotion.attitude.yaw
             
 //            print("X: \(x)")
@@ -108,9 +108,9 @@ class CameraViewController: UIViewController {
             print("Z: \(z)")
             
             
-            self.currentX.text = "X: \(x)"
+            self.currentX.text = String(format: "X: %.4f", x)
 //            self.currentY.text = "Y: \(y)"
-            self.currentZ.text = "Z: \(z)"
+            self.currentZ.text = String(format: "Z: %.4f", z)
             
             //calculate which direction needs to be turned in and set color of each
             if !isNewPost {
@@ -176,6 +176,7 @@ class CameraViewController: UIViewController {
             targetLable.isHidden = true
             
             orignalImageView.isHidden = true
+            alphaSlider.isHidden = true
             
             xImageView.isHidden = true
             yImageView.isHidden = true
@@ -194,12 +195,14 @@ class CameraViewController: UIViewController {
             targetH.isHidden = false
             targetLable.isHidden = false
             
-            targetX.text = "X: \(oldX!)"
+            targetX.text = String(format: "X: %.4f", oldX!)
             targetY.text = "Y: \(oldY!)"
-            targetZ.text = "Z: \(oldZ!)"
-            targetH.text = "H: \(oldH!)"
+            targetZ.text = String(format: "Z: %.4f", oldZ!)
+            targetH.text = String(format: "H: %.4f", oldH!)
+            
             orignalImageView.isHidden = false
             orignalImageView.alpha = 0.4
+            alphaSlider.isHidden = false
             
             xImageView.isHidden = false
             yImageView.isHidden = true
@@ -333,7 +336,7 @@ extension CameraViewController: CLLocationManagerDelegate {
                 print("error no heading")
                 return
             }
-            currentH.text = "H: \(h))"
+            currentH.text = String(format: "H: %.3f", h)
             // if positive turn left
             let hDiff = h - oldH!
 //            print(hDiff)

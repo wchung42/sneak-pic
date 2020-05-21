@@ -48,7 +48,7 @@ class FeedViewController: UIViewController {
         setMapInitCoordinates()
         configureTableView()
         mapView.delegate = self
-//        mapView.showsUserLocation = true
+        mapView.showsUserLocation = true
         getPosts()
         getPostByLocation()
 //        print(locationPosts)
